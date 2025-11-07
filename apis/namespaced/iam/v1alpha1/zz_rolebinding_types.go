@@ -27,7 +27,7 @@ type RoleBindingInitParameters struct {
 	// A principal User to bind the role to, for example, "User:u-111aaa" for binding to a user "u-111aaa", or "User:sa-111aaa" for binding to a service account "sa-111aaa".
 	// The principal User to bind the role to.
 	// +crossplane:generate:reference:type=github.com/michielvha/upjet-provider-confluent/apis/cluster/iam/v1alpha1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",false)
 	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
 
 	// Reference to a ServiceAccount in iam to populate principal.
@@ -80,7 +80,7 @@ type RoleBindingParameters struct {
 	// A principal User to bind the role to, for example, "User:u-111aaa" for binding to a user "u-111aaa", or "User:sa-111aaa" for binding to a service account "sa-111aaa".
 	// The principal User to bind the role to.
 	// +crossplane:generate:reference:type=github.com/michielvha/upjet-provider-confluent/apis/cluster/iam/v1alpha1.ServiceAccount
-	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/pkg/resource.ExtractParamPath("id",false)
+	// +crossplane:generate:reference:extractor=github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",false)
 	// +kubebuilder:validation:Optional
 	Principal *string `json:"principal,omitempty" tf:"principal,omitempty"`
 

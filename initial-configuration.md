@@ -519,6 +519,52 @@ The Upjet-based Confluent provider has been successfully initialized and configu
 
 The provider is now ready for local testing and development. All code has been generated, compiled, and is ready to be deployed to a Kubernetes cluster with Crossplane installed.
 
+## Troubleshooting & Fixes
+
+### Issue 1: Schema Registry Cluster Not a Manageable Resource
+
+**Problem**: Build errors indicated `RegistryCluster` type was undefined in schema resources.
+
+**Root Cause**: `confluent_schema_registry_cluster` is not a manageable resource in the Confluent Terraform provider. Only `confluent_schema_registry_cluster_mode` and `confluent_schema_registry_cluster_config` exist as resources.
+
+**Fix Applied**:
+1. Removed `confluent_schema_registry_cluster` from `config/external_name.go`
+2. Removed all `RegistryCluster` references from `config/schema/config.go`
+3. Removed cross-references to `schema_registry_cluster.id` in schema resources
+4. Kept `RegistryClusterMode` and `RegistryClusterConfig` resources which are valid
+
+**Files Modified**:
+- `config/external_name.go`: Removed line 12
+- `config/schema/config.go`: Removed RegistryCluster configurator and all references
+
+### Issue 2: IAM Extractor Package Version Mismatch
+
+**Problem**: Build error `cannot use resource.ExtractParamPath` due to wrong upjet package version.
+
+**Root Cause**: IAM role binding configuration used old upjet package path `github.com/crossplane/upjet/pkg/resource` instead of v2 path.
+
+**Fix Applied**:
+Changed extractor path in `config/iam/config.go` from:
+```go
+Extractor: `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("id",false)`
+```
+to:
+```go
+Extractor: `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",false)`
+```
+
+**Files Modified**:
+- `config/iam/config.go`: Line 39
+
+### Post-Fix Actions
+
+After applying fixes:
+1. Ran `make generate` to regenerate code without RegistryCluster references
+2. Ran `make build` to verify compilation - **SUCCESS**
+3. Build completed successfully with 37 resources × 2 scopes = 74 total resources
+
+**Note**: Final build error about Docker daemon is expected if Docker isn't running - this only affects container image building, not Go compilation.
+
 ---
 
 **Generated on**: November 7, 2025  

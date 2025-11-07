@@ -22,7 +22,5 @@ spec:
     kmsType: aws-kms
     restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
     schemaRegistryCluster:
-    - idSelector:
-        matchLabels:
-          testing.upbound.io/example-name: confluent_schema_registry_cluster
+    - id: ${data.confluent_schema_registry_cluster.essentials.id}
     shared: false

@@ -36,7 +36,7 @@ func Configure(p *config.Provider) {
 
 		r.References["principal"] = config.Reference{
 			Type:      "github.com/michielvha/upjet-provider-confluent/apis/cluster/iam/v1alpha1.ServiceAccount",
-			Extractor: `github.com/crossplane/upjet/pkg/resource.ExtractParamPath("id",false)`,
+			Extractor: `github.com/crossplane/upjet/v2/pkg/resource.ExtractParamPath("id",false)`,
 		}
 	})
 

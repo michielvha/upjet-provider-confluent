@@ -148,16 +148,7 @@ type BusinessMetadataBindingSchemaRegistryClusterInitParameters struct {
 
 	// The ID of the Schema Registry cluster, for example, lsrc-abc123.
 	// The Schema Registry cluster ID (e.g., `lsrc-abc123`).
-	// +crossplane:generate:reference:type=github.com/michielvha/upjet-provider-confluent/apis/cluster/schema/v1alpha1.RegistryCluster
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// Reference to a RegistryCluster in schema to populate id.
-	// +kubebuilder:validation:Optional
-	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
-
-	// Selector for a RegistryCluster in schema to populate id.
-	// +kubebuilder:validation:Optional
-	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
 }
 
 type BusinessMetadataBindingSchemaRegistryClusterObservation struct {
@@ -171,17 +162,8 @@ type BusinessMetadataBindingSchemaRegistryClusterParameters struct {
 
 	// The ID of the Schema Registry cluster, for example, lsrc-abc123.
 	// The Schema Registry cluster ID (e.g., `lsrc-abc123`).
-	// +crossplane:generate:reference:type=github.com/michielvha/upjet-provider-confluent/apis/cluster/schema/v1alpha1.RegistryCluster
 	// +kubebuilder:validation:Optional
-	ID *string `json:"id,omitempty" tf:"id,omitempty"`
-
-	// Reference to a RegistryCluster in schema to populate id.
-	// +kubebuilder:validation:Optional
-	IDRef *v1.NamespacedReference `json:"idRef,omitempty" tf:"-"`
-
-	// Selector for a RegistryCluster in schema to populate id.
-	// +kubebuilder:validation:Optional
-	IDSelector *v1.NamespacedSelector `json:"idSelector,omitempty" tf:"-"`
+	ID *string `json:"id" tf:"id,omitempty"`
 }
 
 // BusinessMetadataBindingSpec defines the desired state of BusinessMetadataBinding

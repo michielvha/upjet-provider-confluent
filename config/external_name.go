@@ -9,7 +9,6 @@ import (
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Core Infrastructure
 	"confluent_environment":             config.NameAsIdentifier,
-	"confluent_schema_registry_cluster": config.IdentifierFromProvider,
 	"confluent_kafka_cluster":           config.IdentifierFromProvider,
 	"confluent_ksql_cluster":            config.IdentifierFromProvider,
 

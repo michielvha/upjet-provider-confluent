@@ -20,6 +20,4 @@ spec:
         name: example-secret
     restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
     schemaRegistryCluster:
-    - idSelector:
-        matchLabels:
-          testing.upbound.io/example-name: essentials
+    - id: ${confluent_schema_registry_region.essentials.id}

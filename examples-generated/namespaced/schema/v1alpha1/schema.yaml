@@ -20,6 +20,4 @@ spec:
     restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
     schema: ${file("./schemas/avro/purchase.avsc")}
     schemaRegistryCluster:
-    - idSelector:
-        matchLabels:
-          testing.upbound.io/example-name: confluent_schema_registry_cluster
+    - id: ${data.confluent_schema_registry_cluster.essentials.id}
