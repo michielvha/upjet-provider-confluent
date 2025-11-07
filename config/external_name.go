@@ -8,9 +8,9 @@ import (
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Core Infrastructure
-	"confluent_environment":             config.NameAsIdentifier,
-	"confluent_kafka_cluster":           config.IdentifierFromProvider,
-	"confluent_ksql_cluster":            config.IdentifierFromProvider,
+	"confluent_environment":   config.NameAsIdentifier,
+	"confluent_kafka_cluster": config.IdentifierFromProvider,
+	"confluent_ksql_cluster":  config.IdentifierFromProvider,
 
 	// Kafka Resources
 	"confluent_kafka_topic": config.NameAsIdentifier,
