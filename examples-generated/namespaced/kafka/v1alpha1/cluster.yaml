@@ -1,0 +1,36 @@
+apiVersion: kafka.confluent.m.crossplane.io/v1alpha1
+kind: Cluster
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kafka/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: basic
+  name: basic
+  namespace: crossplane-system
+spec:
+  forProvider:
+    availability: SINGLE_ZONE
+    basic:
+    - {}
+    cloud: AWS
+    displayName: basic_kafka_cluster
+    environment:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: development
+    region: us-east-2
+
+---
+
+apiVersion: environment.confluent.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kafka/v1alpha1/cluster
+  labels:
+    testing.upbound.io/example-name: development
+  name: development
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Development

@@ -1,5 +1,4 @@
 package environment
-package environment
 
 import "github.com/crossplane/upjet/v2/pkg/config"
 

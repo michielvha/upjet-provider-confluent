@@ -1,0 +1,959 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.18.0
+  name: clusterlinks.kafka.confluent.m.crossplane.io
+spec:
+  group: kafka.confluent.m.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - confluent
+    kind: ClusterLink
+    listKind: ClusterLinkList
+    plural: clusterlinks
+    singular: clusterlink
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .metadata.annotations.crossplane\.io/external-name
+      name: EXTERNAL-NAME
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ClusterLink is the Schema for the ClusterLinks API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ClusterLinkSpec defines the desired state of ClusterLink
+            properties:
+              forProvider:
+                properties:
+                  config:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The custom cluster link settings to set:
+                      The custom cluster link settings to set (e.g., `"acl.sync.ms" = "5100"`).
+                    type: object
+                    x-kubernetes-map-type: granular
+                  connectionMode:
+                    description: |-
+                      The connection mode of the cluster link. The supported values are "INBOUND" and "OUTBOUND". Defaults to "OUTBOUND".
+                      The connection mode of the Cluster Link. Defaults to `OUTBOUND`.
+                    type: string
+                  destinationKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  linkMode:
+                    description: |-
+                      The mode of the cluster link. The supported values are "DESTINATION", "SOURCE", and "BIDIRECTIONAL". Defaults to "DESTINATION".
+                      The mode of the Cluster Link. Defaults to `DESTINATION`.
+                    type: string
+                  localKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  remoteKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  sourceKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              initProvider:
+                description: |-
+                  THIS IS A BETA FIELD. It will be honored
+                  unless the Management Policies feature flag is disabled.
+                  InitProvider holds the same fields as ForProvider, with the exception
+                  of Identifier and other resource reference fields. The fields that are
+                  in InitProvider are merged into ForProvider when the resource is created.
+                  The same fields are also added to the terraform ignore_changes hook, to
+                  avoid updating them after creation. This is useful for fields that are
+                  required on creation, but we do not desire to update them after creation,
+                  for example because of an external controller is managing them, like an
+                  autoscaler.
+                properties:
+                  config:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The custom cluster link settings to set:
+                      The custom cluster link settings to set (e.g., `"acl.sync.ms" = "5100"`).
+                    type: object
+                    x-kubernetes-map-type: granular
+                  connectionMode:
+                    description: |-
+                      The connection mode of the cluster link. The supported values are "INBOUND" and "OUTBOUND". Defaults to "OUTBOUND".
+                      The connection mode of the Cluster Link. Defaults to `OUTBOUND`.
+                    type: string
+                  destinationKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - keySecretRef
+                            - secretSecretRef
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  linkMode:
+                    description: |-
+                      The mode of the cluster link. The supported values are "DESTINATION", "SOURCE", and "BIDIRECTIONAL". Defaults to "DESTINATION".
+                      The mode of the Cluster Link. Defaults to `DESTINATION`.
+                    type: string
+                  localKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - keySecretRef
+                            - secretSecretRef
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  remoteKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - keySecretRef
+                            - secretSecretRef
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  sourceKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            required:
+                            - keySecretRef
+                            - secretSecretRef
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              managementPolicies:
+                default:
+                - '*'
+                description: |-
+                  THIS IS A BETA FIELD. It is on by default but can be opted out
+                  through a Crossplane feature flag.
+                  ManagementPolicies specify the array of actions Crossplane is allowed to
+                  take on the managed and external resources.
+                  See the design doc for more information: https://github.com/crossplane/crossplane/blob/499895a25d1a1a0ba1604944ef98ac7a1a71f197/design/design-doc-observe-only-resources.md?plain=1#L223
+                  and this one: https://github.com/crossplane/crossplane/blob/444267e84783136daa93568b364a5f01228cacbe/design/one-pager-ignore-changes.md
+                items:
+                  description: |-
+                    A ManagementAction represents an action that the Crossplane controllers
+                    can take on an external resource.
+                  enum:
+                  - Observe
+                  - Create
+                  - Update
+                  - Delete
+                  - LateInitialize
+                  - '*'
+                  type: string
+                type: array
+              providerConfigRef:
+                default:
+                  kind: ClusterProviderConfig
+                  name: default
+                description: |-
+                  ProviderConfigReference specifies how the provider that will be used to
+                  create, observe, update, and delete this managed resource should be
+                  configured.
+                properties:
+                  kind:
+                    description: Kind of the referenced object.
+                    type: string
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - kind
+                - name
+                type: object
+              writeConnectionSecretToRef:
+                description: |-
+                  WriteConnectionSecretToReference specifies the namespace and name of a
+                  Secret to which any connection details for this managed resource should
+                  be written. Connection details frequently include the endpoint, username,
+                  and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - forProvider
+            type: object
+          status:
+            description: ClusterLinkStatus defines the observed state of ClusterLink.
+            properties:
+              atProvider:
+                properties:
+                  clusterLinkId:
+                    description: |-
+                      The actual Cluster Link ID assigned from Confluent Cloud that uniquely represents a link between two Kafka clusters, for example, qz0HDEV-Qz2B5aPFpcWQJQ.
+                      The actual Cluster Link ID assigned from Confluent Cloud that uniquely represents a link between two Kafka clusters.
+                    type: string
+                  config:
+                    additionalProperties:
+                      type: string
+                    description: |-
+                      The custom cluster link settings to set:
+                      The custom cluster link settings to set (e.g., `"acl.sync.ms" = "5100"`).
+                    type: object
+                    x-kubernetes-map-type: granular
+                  connectionMode:
+                    description: |-
+                      The connection mode of the cluster link. The supported values are "INBOUND" and "OUTBOUND". Defaults to "OUTBOUND".
+                      The connection mode of the Cluster Link. Defaults to `OUTBOUND`.
+                    type: string
+                  destinationKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    description: The ID of the source Kafka cluster, for example,
+                      lkc-abc123.
+                    type: string
+                  linkMode:
+                    description: |-
+                      The mode of the cluster link. The supported values are "DESTINATION", "SOURCE", and "BIDIRECTIONAL". Defaults to "DESTINATION".
+                      The mode of the Cluster Link. Defaults to `DESTINATION`.
+                    type: string
+                  localKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  remoteKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                  sourceKafkaCluster:
+                    description: 'supports the following:'
+                    items:
+                      properties:
+                        bootstrapEndpoint:
+                          description: |-
+                            The bootstrap endpoint of the source Kafka cluster, for example, SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092 or pkc-00000.us-central1.gcp.confluent.cloud:9092).
+                            The bootstrap endpoint used by Kafka clients to connect to the Kafka cluster. (e.g., `SASL_SSL://pkc-00000.us-central1.gcp.confluent.cloud:9092` or `pkc-00000.us-central1.gcp.confluent.cloud:9092`).
+                          type: string
+                        credentials:
+                          description: |-
+                            supports the following:
+                            The Kafka API Credentials.
+                          items:
+                            properties:
+                              keySecretRef:
+                                description: |-
+                                  The Kafka API Key.
+                                  The Kafka API Key for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                              secretSecretRef:
+                                description: |-
+                                  The Kafka API Secret.
+                                  The Kafka API Secret for your Confluent Cloud cluster.
+                                properties:
+                                  key:
+                                    type: string
+                                  name:
+                                    description: Name of the secret.
+                                    type: string
+                                required:
+                                - key
+                                - name
+                                type: object
+                            type: object
+                          type: array
+                        id:
+                          description: |-
+                            The ID of the source Kafka cluster, for example, lkc-abc123.
+                            The unique identifier for the referred Kafka cluster.
+                          type: string
+                        restEndpoint:
+                          description: |-
+                            The REST endpoint of the source Kafka cluster, for example, https://pkc-00000.us-central1.gcp.confluent.cloud:443).
+                            The REST endpoint of the Kafka cluster (e.g., `https://pkc-00000.us-central1.gcp.confluent.cloud:443`).
+                          type: string
+                      type: object
+                    type: array
+                type: object
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: |-
+                        LastTransitionTime is the last time this condition transitioned from one
+                        status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: |-
+                        A Message containing details about this condition's last transition from
+                        one status to another, if any.
+                      type: string
+                    observedGeneration:
+                      description: |-
+                        ObservedGeneration represents the .metadata.generation that the condition was set based upon.
+                        For instance, if .metadata.generation is currently 12, but the .status.conditions[x].observedGeneration is 9, the condition is out of date
+                        with respect to the current state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: A Reason for this condition's last transition from
+                        one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True,
+                        False, or Unknown?
+                      type: string
+                    type:
+                      description: |-
+                        Type of this condition. At most one of each condition type may apply to
+                        a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              observedGeneration:
+                description: |-
+                  ObservedGeneration is the latest metadata.generation
+                  which resulted in either a ready state, or stalled due to error
+                  it can not recover from without human intervention.
+                format: int64
+                type: integer
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

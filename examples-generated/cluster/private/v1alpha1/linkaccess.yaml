@@ -1,0 +1,55 @@
+apiVersion: private.confluent.crossplane.io/v1alpha1
+kind: LinkAccess
+metadata:
+  annotations:
+    meta.upbound.io/example-id: private/v1alpha1/linkaccess
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+spec:
+  forProvider:
+    aws:
+    - account: "012345678901"
+    displayName: AWS Private Link Access
+    environment:
+    - id: ${confluent_environment.development.id}
+    network:
+    - id: ${confluent_network.aws-private-link.id}
+
+---
+
+apiVersion: environment.confluent.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: private/v1alpha1/linkaccess
+  labels:
+    testing.upbound.io/example-name: development
+  name: development
+spec:
+  forProvider:
+    displayName: Development
+
+---
+
+apiVersion: confluent.confluent.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: private/v1alpha1/linkaccess
+  labels:
+    testing.upbound.io/example-name: aws-private-link
+  name: aws-private-link
+spec:
+  forProvider:
+    cloud: AWS
+    connectionTypes:
+    - PRIVATELINK
+    displayName: AWS Private Link Network
+    environment:
+    - id: ${confluent_environment.development.id}
+    region: us-east-1
+    zones:
+    - use1-az1
+    - use1-az2
+    - use1-az6

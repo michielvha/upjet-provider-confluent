@@ -1,0 +1,59 @@
+apiVersion: confluent.confluent.m.crossplane.io/v1alpha1
+kind: Peering
+metadata:
+  annotations:
+    meta.upbound.io/example-id: confluent/v1alpha1/peering
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    aws:
+    - account: "012345678901"
+      customerRegion: us-east-2
+      routes:
+      - 172.31.0.0/16
+      vpc: vpc-abcdef0123456789a
+    displayName: AWS Peering
+    environment:
+    - id: ${confluent_environment.development.id}
+    network:
+    - id: ${confluent_network.aws-peering.id}
+
+---
+
+apiVersion: environment.confluent.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: confluent/v1alpha1/peering
+  labels:
+    testing.upbound.io/example-name: development
+  name: development
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Development
+
+---
+
+apiVersion: confluent.confluent.m.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: confluent/v1alpha1/peering
+  labels:
+    testing.upbound.io/example-name: aws-peering
+  name: aws-peering
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cidr: 10.10.0.0/16
+    cloud: AWS
+    connectionTypes:
+    - PEERING
+    displayName: AWS Peering Network
+    environment:
+    - id: ${confluent_environment.development.id}
+    region: us-east-2

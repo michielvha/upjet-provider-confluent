@@ -1,0 +1,32 @@
+apiVersion: dns.confluent.crossplane.io/v1alpha1
+kind: Record
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+spec:
+  forProvider:
+    displayName: dns_record
+    domain: example.com
+    environment:
+    - id: ${confluent_environment.development.id}
+    gateway:
+    - id: ${confluent_network.main.gateway[0].id}
+    privateLinkAccessPoint:
+    - id: ${confluent_access_point.main.id}
+
+---
+
+apiVersion: environment.confluent.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: dns/v1alpha1/record
+  labels:
+    testing.upbound.io/example-name: development
+  name: development
+spec:
+  forProvider:
+    displayName: Development

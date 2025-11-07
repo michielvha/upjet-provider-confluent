@@ -1,0 +1,29 @@
+apiVersion: schema.confluent.m.crossplane.io/v1alpha1
+kind: BusinessMetadataBinding
+metadata:
+  annotations:
+    meta.upbound.io/example-id: schema/v1alpha1/businessmetadatabinding
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    attributes:
+      email: team@company.com
+      team: teamName
+    businessMetadataName: PII
+    credentials:
+    - keySecretRef:
+        key: example-key
+        name: example-secret
+      secretSecretRef:
+        key: example-key
+        name: example-secret
+    entityName: ${var.schema_registry_id}:${var.kafka_id}:${data.confluent_kafka_topic.main.topic_name}
+    entityType: kafka_topic
+    restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
+    schemaRegistryCluster:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: confluent_schema_registry_cluster

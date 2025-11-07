@@ -1,0 +1,16 @@
+apiVersion: custom.confluent.crossplane.io/v1alpha1
+kind: ConnectorPlugin
+metadata:
+  annotations:
+    meta.upbound.io/example-id: custom/v1alpha1/connectorplugin
+  labels:
+    testing.upbound.io/example-name: source
+  name: source
+spec:
+  forProvider:
+    connectorClass: io.confluent.kafka.connect.datagen.DatagenConnector
+    connectorType: SOURCE
+    displayName: Datagen Source Connector Plugin
+    documentationLink: https://www.confluent.io/hub/confluentinc/kafka-connect-datagen
+    filename: confluentinc-kafka-connect-datagen-0.6.2.zip
+    sensitiveConfigProperties: []

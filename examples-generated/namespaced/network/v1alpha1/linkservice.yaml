@@ -1,0 +1,63 @@
+apiVersion: network.confluent.m.crossplane.io/v1alpha1
+kind: LinkService
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/linkservice
+  labels:
+    testing.upbound.io/example-name: aws_nls
+  name: aws-nls
+  namespace: crossplane-system
+spec:
+  forProvider:
+    accept:
+    - environments:
+      - env-5678
+      - env-0923
+      networks:
+      - n-1234
+    description: Test NL service
+    displayName: AWS Private Link network link service
+    environment:
+    - id: ${confluent_environment.development.id}
+    network:
+    - id: ${confluent_network.aws-private-link.id}
+
+---
+
+apiVersion: environment.confluent.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/linkservice
+  labels:
+    testing.upbound.io/example-name: development
+  name: development
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Development
+
+---
+
+apiVersion: confluent.confluent.m.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/linkservice
+  labels:
+    testing.upbound.io/example-name: aws-private-link
+  name: aws-private-link
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cloud: AWS
+    connectionTypes:
+    - PRIVATELINK
+    displayName: AWS Private Link Network
+    environment:
+    - id: ${confluent_environment.development.id}
+    region: us-east-1
+    zones:
+    - use1-az1
+    - use1-az2
+    - use1-az6

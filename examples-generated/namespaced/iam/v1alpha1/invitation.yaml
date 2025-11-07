@@ -1,0 +1,12 @@
+apiVersion: iam.confluent.m.crossplane.io/v1alpha1
+kind: Invitation
+metadata:
+  annotations:
+    meta.upbound.io/example-id: iam/v1alpha1/invitation
+  labels:
+    testing.upbound.io/example-name: main
+  name: main
+  namespace: crossplane-system
+spec:
+  forProvider:
+    email: ""

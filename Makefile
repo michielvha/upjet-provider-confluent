@@ -12,10 +12,10 @@ TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAF
 
 export TERRAFORM_PROVIDER_SOURCE ?= confluentinc/confluent
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/confluentinc/terraform-provider-confluent
-export TERRAFORM_PROVIDER_VERSION ?= 2.11.0
+export TERRAFORM_PROVIDER_VERSION ?= 2.51.0
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-confluent
 export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-confluent_v2.11.0
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-confluent_v2.51.0
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
 

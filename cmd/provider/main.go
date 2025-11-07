@@ -34,14 +34,14 @@ import (
 	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
-	apisCluster "github.com/crossplane/upjet-provider-template/apis/cluster"
-	apisNamespaced "github.com/crossplane/upjet-provider-template/apis/namespaced"
-	"github.com/crossplane/upjet-provider-template/config"
-	"github.com/crossplane/upjet-provider-template/internal/clients"
-	controllerCluster "github.com/crossplane/upjet-provider-template/internal/controller/cluster"
-	controllerNamespaced "github.com/crossplane/upjet-provider-template/internal/controller/namespaced"
-	"github.com/crossplane/upjet-provider-template/internal/features"
-	"github.com/crossplane/upjet-provider-template/internal/version"
+	apisCluster "github.com/michielvha/upjet-provider-confluent/apis/cluster"
+	apisNamespaced "github.com/michielvha/upjet-provider-confluent/apis/namespaced"
+	"github.com/michielvha/upjet-provider-confluent/config"
+	"github.com/michielvha/upjet-provider-confluent/internal/clients"
+	controllerCluster "github.com/michielvha/upjet-provider-confluent/internal/controller/cluster"
+	controllerNamespaced "github.com/michielvha/upjet-provider-confluent/internal/controller/namespaced"
+	"github.com/michielvha/upjet-provider-confluent/internal/features"
+	"github.com/michielvha/upjet-provider-confluent/internal/version"
 )
 
 const (

@@ -1,0 +1,27 @@
+apiVersion: kafka.confluent.m.crossplane.io/v1alpha1
+kind: MirrorTopic
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kafka/v1alpha1/mirrortopic
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    clusterLink:
+    - linkNameSelector:
+        matchLabels:
+          testing.upbound.io/example-name: source-outbound
+    kafkaCluster:
+    - credentials:
+      - keySecretRef:
+          key: attribute.id
+          name: example-api-key
+        secretSecretRef:
+          key: attribute.secret
+          name: example-api-key
+      id: ${data.confluent_kafka_cluster.destination.id}
+      restEndpoint: ${data.confluent_kafka_cluster.destination.rest_endpoint}
+    sourceKafkaTopic:
+    - topicName: orders

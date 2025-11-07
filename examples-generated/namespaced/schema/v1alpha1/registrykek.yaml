@@ -1,0 +1,28 @@
+apiVersion: schema.confluent.m.crossplane.io/v1alpha1
+kind: RegistryKek
+metadata:
+  annotations:
+    meta.upbound.io/example-id: schema/v1alpha1/registrykek
+  labels:
+    testing.upbound.io/example-name: aws_key
+  name: aws-key
+  namespace: crossplane-system
+spec:
+  forProvider:
+    credentials:
+    - keySecretRef:
+        key: example-key
+        name: example-secret
+      secretSecretRef:
+        key: example-key
+        name: example-secret
+    doc: test key
+    hardDelete: true
+    kmsKeyId: key_id
+    kmsType: aws-kms
+    restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
+    schemaRegistryCluster:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: confluent_schema_registry_cluster
+    shared: false

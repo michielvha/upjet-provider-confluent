@@ -1,0 +1,14 @@
+apiVersion: environment.confluent.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: environment/v1alpha1/environment
+  labels:
+    testing.upbound.io/example-name: prod
+  name: prod
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Production
+    streamGovernance:
+    - package: ESSENTIALS

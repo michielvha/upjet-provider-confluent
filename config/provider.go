@@ -5,7 +5,7 @@ import (
 	_ "embed"
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
-	
+
 	"github.com/michielvha/upjet-provider-confluent/config/environment"
 	"github.com/michielvha/upjet-provider-confluent/config/iam"
 	"github.com/michielvha/upjet-provider-confluent/config/kafka"

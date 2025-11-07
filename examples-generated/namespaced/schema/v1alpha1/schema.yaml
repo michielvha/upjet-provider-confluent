@@ -1,0 +1,25 @@
+apiVersion: schema.confluent.m.crossplane.io/v1alpha1
+kind: Schema
+metadata:
+  annotations:
+    meta.upbound.io/example-id: schema/v1alpha1/schema
+  labels:
+    testing.upbound.io/example-name: avro-purchase
+  name: avro-purchase
+  namespace: crossplane-system
+spec:
+  forProvider:
+    credentials:
+    - keySecretRef:
+        key: example-key
+        name: example-secret
+      secretSecretRef:
+        key: example-key
+        name: example-secret
+    format: AVRO
+    restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
+    schema: ${file("./schemas/avro/purchase.avsc")}
+    schemaRegistryCluster:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: confluent_schema_registry_cluster

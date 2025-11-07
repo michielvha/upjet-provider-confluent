@@ -1,0 +1,30 @@
+apiVersion: kafka.confluent.m.crossplane.io/v1alpha1
+kind: ACL
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kafka/v1alpha1/acl
+  labels:
+    testing.upbound.io/example-name: describe-basic-cluster
+  name: describe-basic-cluster
+  namespace: crossplane-system
+spec:
+  forProvider:
+    credentials:
+    - keySecretRef:
+        key: attribute.id
+        name: example-api-key
+      secretSecretRef:
+        key: attribute.secret
+        name: example-api-key
+    host: '*'
+    kafkaCluster:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: basic-cluster
+    operation: DESCRIBE
+    patternType: LITERAL
+    permission: ALLOW
+    principal: User:sa-xyz123
+    resourceName: kafka-cluster
+    resourceType: CLUSTER
+    restEndpoint: ${confluent_kafka_cluster.basic-cluster.rest_endpoint}

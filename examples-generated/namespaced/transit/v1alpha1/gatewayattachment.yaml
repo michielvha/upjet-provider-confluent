@@ -1,0 +1,61 @@
+apiVersion: transit.confluent.m.crossplane.io/v1alpha1
+kind: GatewayAttachment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: transit/v1alpha1/gatewayattachment
+  labels:
+    testing.upbound.io/example-name: aws
+  name: aws
+  namespace: crossplane-system
+spec:
+  forProvider:
+    aws:
+    - ramResourceShareArn: arn:aws:ram:us-east-2:000000000000:resource-share/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx
+      routes:
+      - 192.168.0.0/16
+      - 172.16.0.0/12
+      - 100.64.0.0/10
+      - 10.0.0.0/8
+      transitGatewayId: tgw-xxxxxxxxxxxxxxxxx
+    displayName: AWS Transit Gateway Attachment
+    environment:
+    - id: ${confluent_environment.development.id}
+    network:
+    - id: ${confluent_network.aws-transit-gateway-attachment.id}
+
+---
+
+apiVersion: environment.confluent.m.crossplane.io/v1alpha1
+kind: Environment
+metadata:
+  annotations:
+    meta.upbound.io/example-id: transit/v1alpha1/gatewayattachment
+  labels:
+    testing.upbound.io/example-name: development
+  name: development
+  namespace: crossplane-system
+spec:
+  forProvider:
+    displayName: Development
+
+---
+
+apiVersion: confluent.confluent.m.crossplane.io/v1alpha1
+kind: Network
+metadata:
+  annotations:
+    meta.upbound.io/example-id: transit/v1alpha1/gatewayattachment
+  labels:
+    testing.upbound.io/example-name: aws-transit-gateway-attachment
+  name: aws-transit-gateway-attachment
+  namespace: crossplane-system
+spec:
+  forProvider:
+    cidr: 10.10.0.0/16
+    cloud: AWS
+    connectionTypes:
+    - TRANSITGATEWAY
+    displayName: AWS Transit Gateway Attachment Network
+    environment:
+    - id: ${confluent_environment.development.id}
+    region: us-east-2

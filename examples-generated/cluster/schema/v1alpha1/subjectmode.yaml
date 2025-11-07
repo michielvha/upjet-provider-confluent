@@ -1,0 +1,25 @@
+apiVersion: schema.confluent.crossplane.io/v1alpha1
+kind: SubjectMode
+metadata:
+  annotations:
+    meta.upbound.io/example-id: schema/v1alpha1/subjectmode
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+spec:
+  forProvider:
+    credentials:
+    - keySecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+      secretSecretRef:
+        key: example-key
+        name: example-secret
+        namespace: upbound-system
+    mode: READONLY
+    restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
+    schemaRegistryCluster:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: confluent_schema_registry_cluster

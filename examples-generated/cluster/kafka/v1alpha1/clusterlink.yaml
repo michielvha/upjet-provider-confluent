@@ -1,0 +1,35 @@
+apiVersion: kafka.confluent.crossplane.io/v1alpha1
+kind: ClusterLink
+metadata:
+  annotations:
+    meta.upbound.io/example-id: kafka/v1alpha1/clusterlink
+  labels:
+    testing.upbound.io/example-name: east-to-west
+  name: east-to-west
+spec:
+  forProvider:
+    linkMode: BIDIRECTIONAL
+    localKafkaCluster:
+    - credentials:
+      - keySecretRef:
+          key: attribute.id
+          name: example-api-key
+          namespace: upbound-system
+        secretSecretRef:
+          key: attribute.secret
+          name: example-api-key
+          namespace: upbound-system
+      id: ${data.confluent_kafka_cluster.east.id}
+      restEndpoint: ${data.confluent_kafka_cluster.east.rest_endpoint}
+    remoteKafkaCluster:
+    - bootstrapEndpoint: ${data.confluent_kafka_cluster.west.bootstrap_endpoint}
+      credentials:
+      - keySecretRef:
+          key: attribute.id
+          name: example-api-key
+          namespace: upbound-system
+        secretSecretRef:
+          key: attribute.secret
+          name: example-api-key
+          namespace: upbound-system
+      id: ${data.confluent_kafka_cluster.west.id}

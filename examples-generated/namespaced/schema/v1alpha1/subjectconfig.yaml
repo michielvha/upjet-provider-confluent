@@ -1,0 +1,25 @@
+apiVersion: schema.confluent.m.crossplane.io/v1alpha1
+kind: SubjectConfig
+metadata:
+  annotations:
+    meta.upbound.io/example-id: schema/v1alpha1/subjectconfig
+  labels:
+    testing.upbound.io/example-name: example
+  name: example
+  namespace: crossplane-system
+spec:
+  forProvider:
+    compatibilityGroup: abc.cg.version
+    compatibilityLevel: BACKWARD
+    credentials:
+    - keySecretRef:
+        key: example-key
+        name: example-secret
+      secretSecretRef:
+        key: example-key
+        name: example-secret
+    restEndpoint: ${data.confluent_schema_registry_cluster.essentials.rest_endpoint}
+    schemaRegistryCluster:
+    - idSelector:
+        matchLabels:
+          testing.upbound.io/example-name: essentials

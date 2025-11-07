@@ -1,0 +1,18 @@
+apiVersion: network.confluent.crossplane.io/v1alpha1
+kind: LinkEndpoint
+metadata:
+  annotations:
+    meta.upbound.io/example-id: network/v1alpha1/linkendpoint
+  labels:
+    testing.upbound.io/example-name: nle
+  name: nle
+spec:
+  forProvider:
+    description: TEST-NLE1
+    displayName: nle1
+    environment:
+    - id: env-xyz456
+    network:
+    - id: n-abc123
+    networkLinkService:
+    - id: nls-g3e1ox
